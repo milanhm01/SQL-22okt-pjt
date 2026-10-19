@@ -8,6 +8,17 @@ conn = sqlite3.connect("cybershield.db")
 # create cursor so we can run sql commands
 cur = conn.cursor()
 
+
+# cancel the registration and go back to the menu
+def afbryd():
+    # tell the user nothing was saved
+    print("Registrering afbrudt, ingen data er gemt")
+    # close the connection to the database
+    conn.close()
+    # stop the program
+    exit()
+
+
 # list of the categories we allow
 tilladte_kategorier = ["Phishing", "Malware", "Mistænkeligt loginforsøg", "Uautoriseret adgang", "Databrud"]
 # list of the severity levels we allow
@@ -23,6 +34,8 @@ print("Tilladte kategorier:", ", ".join(tilladte_kategorier))
 print("Tilladte alvorlighedsgrader:", ", ".join(tilladte_alvor))
 # print the allowed statuses at the start
 print("Tilladte statusser:", ", ".join(tilladte_status))
+# tell the user how to cancel
+print("Skriv 0 i et felt for at afbryde")
 # print an empty line before the questions start
 print()
 
@@ -30,6 +43,10 @@ print()
 while True:
     # ask the user for the title and remove extra spaces
     titel = input("Titel: ").strip()
+    # check if the user wants to cancel
+    if titel == "0":
+        # cancel the registration
+        afbryd()
     # check if the title is empty
     if titel == "":
         # tell the user the title cannot be empty
@@ -43,6 +60,10 @@ while True:
 while True:
     # ask the user for the category, remove spaces and fix the capital letter
     kategori = input("Kategori: ").strip().capitalize()
+    # check if the user wants to cancel
+    if kategori == "0":
+        # cancel the registration
+        afbryd()
     # check if the category is not in the allowed list
     if kategori not in tilladte_kategorier:
         # tell the user the category is not allowed
@@ -56,6 +77,10 @@ while True:
 while True:
     # ask the user for the severity, remove spaces and fix the capital letter
     alvor = input("Alvorlighed: ").strip().capitalize()
+    # check if the user wants to cancel
+    if alvor == "0":
+        # cancel the registration
+        afbryd()
     # check if the severity is not in the allowed list
     if alvor not in tilladte_alvor:
         # tell the user the severity is not allowed
@@ -69,6 +94,10 @@ while True:
 while True:
     # ask the user for the status, remove spaces and fix the capital letter
     status = input("Status: ").strip().capitalize()
+    # check if the user wants to cancel
+    if status == "0":
+        # cancel the registration
+        afbryd()
     # check if the status is not in the allowed list
     if status not in tilladte_status:
         # tell the user the status is not allowed
@@ -82,6 +111,10 @@ while True:
 while True:
     # ask the user for the date and remove extra spaces
     dato = input("Dato (YYYY-MM-DD): ").strip()
+    # check if the user wants to cancel
+    if dato == "0":
+        # cancel the registration
+        afbryd()
     # try to read the text as a real date in the right format
     try:
         # this fails with ValueError if the date is wrong
@@ -99,6 +132,10 @@ while True:
 while True:
     # ask the user for the description and remove extra spaces
     beskrivelse = input("Beskrivelse: ").strip()
+    # check if the user wants to cancel
+    if beskrivelse == "0":
+        # cancel the registration
+        afbryd()
     # check if the description is empty
     if beskrivelse == "":
         # tell the user the description cannot be empty
