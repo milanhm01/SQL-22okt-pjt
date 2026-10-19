@@ -1,0 +1,4 @@
+title,category,severity,status,reported_date,description
+Falsk mail fra "IT-support",Phishing,Mellem,Lukket,2026-10-16,"Mail bad om adgangskode, linket blev blokeret"
+Ukendt USB-enhed fundet,Malware,Lav,Åben,2026-10-17,Enheden blev afleveret til IT
+Fejlede logins mod VPN,Mistænkeligt loginforsøg,Høj,Undersøges,2026-10-18,"Mange forsøg fra samme IP, adressen er blokeret"
