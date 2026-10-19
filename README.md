@@ -38,13 +38,14 @@ Scripts er nummereret efter de seks krav i opgaveformuleringen:
 | Fil | Formål | SQL |
 |---|---|---|
 | `1_create_database.py` | Opretter databasen og tabellen | `CREATE TABLE` |
-| `2_bulk_insert.py` | Indsætter 100 kunstige hændelser | `INSERT INTO` |
+| `2_bulk_insert.py` | Indsætter 100 kunstige hændelser, eller importerer hændelser fra en CSV-fil | `INSERT INTO` |
 | `3_delete_incidents.py` | Tømmer tabellen (efter bekræftelse) | `DELETE FROM` |
 | `4_show_incidents.py` | Viser alle hændelser pænt i konsollen | `SELECT` |
 | `5_filter_incidents.py` | Filtrerer efter alvorlighed, status eller kategori | `SELECT ... WHERE` |
 | `6_add_incident.py` | Registrerer én ny hændelse med inputvalidering | `INSERT INTO` |
 | `main.py` | Hovedmenu, der samler alle scripts | |
 | `data/bulk_ai_gen_data.py` | 100 hændelser genereret af en LLM | |
+| `data/example_incidents.csv` | Eksempel på en CSV-fil, der kan importeres | |
 | `cybershield.db` | SQLite-databasen | |
 
 ## Sådan kører du programmet
@@ -59,7 +60,7 @@ Menuen:
 
 ```
 1. Opret database
-2. Indsæt 100 testhændelser
+2. Indsæt hændelser (testdata eller CSV-fil)
 3. Slet alle hændelser
 4. Vis alle hændelser
 5. Filtrér hændelser
