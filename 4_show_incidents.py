@@ -25,8 +25,8 @@ else:
     for row in rows:
         # print one line with id, title, category, severity, status and date
         print(f"{row[0]:<4} {row[1]:<40} {row[2]:<25} {row[3]:<8} {row[4]:<11} {row[5]:<11}")
-        # print the description on its own indented line
-        print(f"     {row[6]}")
+        # print the description on its own line, then an empty line
+        print(f"     {row[6]}\n")
 
 # close the connection to the database
 conn.close()
