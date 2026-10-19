@@ -26,7 +26,7 @@ def show_menu():
     # print option 1
     print("1. Opret database")
     # print option 2
-    print("2. Indsæt 100 testhændelser")
+    print("2. Indsæt hændelser (testdata eller CSV-fil)")
     # print option 3
     print("3. Slet alle hændelser")
     # print option 4
