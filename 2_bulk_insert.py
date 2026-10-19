@@ -56,85 +56,104 @@ def tjek_raekke(raekke):
     return ""
 
 
-# print the menu title
-print("\n=== Indsæt hændelser ===")
-# print option 1
-print("1. Indsæt de 100 indbyggede testhændelser")
-# print option 2
-print("2. Importér hændelser fra en CSV-fil")
-# ask the user which option they want
-valg = input("Vælg (1-2): ").strip()
+# keep showing the menu until the user has valid rows or goes back
+while True:
+    # print the menu title
+    print("\n=== Indsæt hændelser ===")
+    # print option 1
+    print("1. Indsæt de 100 indbyggede testhændelser")
+    # print option 2
+    print("2. Importér hændelser fra en CSV-fil")
+    # print option 0
+    print("0. Tilbage")
+    # ask the user which option they want
+    valg = input("Vælg (0-2): ").strip()
 
-# check if the user chose the built-in test data
-if valg == "1":
-    # use the list from the data file
-    rows = incidents
-# check if the user chose a csv file
-elif valg == "2":
-    # tell the user how the csv file must look
-    print("\nCSV-filen skal have denne første linje (overskrifter):")
-    # show the header line
-    print(",".join(kolonner))
-    # tell the user how the following lines must look
-    print("og derefter én hændelse pr. linje, fx:")
-    # show an example row
-    print('Falsk mail,Phishing,Mellem,Lukket,2026-10-19,"Linket blev blokeret, ingen skade"')
-    # remind the user about commas in text
-    print("Tekst med komma skal stå i citationstegn. Se også data/example_incidents.csv")
-    # ask for the path and remove spaces and quotes
-    sti = input("\nSti til CSV-filen: ").strip().strip("'\"")
-    # try to open and read the file
-    try:
-        # open the file, utf-8-sig also accepts files saved from excel
-        fil = open(sti, encoding="utf-8-sig", newline="")
-        # read all lines into a list of rows
-        alle = list(csv.reader(fil))
-        # close the file again
-        fil.close()
-    # runs if the file does not exist
-    except FileNotFoundError:
-        # tell the user and stop
-        print("Filen blev ikke fundet")
+    # check if the user wants to go back
+    if valg == "0":
+        # tell the user nothing was inserted
+        print("Tilbage, ingen hændelser er indsat")
+        # stop the program
         exit()
-    # check that the first line is the right header
-    if len(alle) == 0 or [navn.strip() for navn in alle[0]] != kolonner:
-        # tell the user and stop
-        print("Første linje skal være overskrifterne vist ovenfor")
-        exit()
-    # empty list for the rows that are ok
-    rows = []
-    # counter for the rows with errors
-    antal_fejl = 0
-    # go through every line after the header, line numbers start at 2
-    for nr, raekke in enumerate(alle[1:], start=2):
-        # check the row and get an error text
-        fejl = tjek_raekke(raekke)
-        # check if the row has an error
-        if fejl != "":
-            # show which line is wrong and why
-            print(f"Linje {nr}: {fejl}")
-            # count the error
-            antal_fejl = antal_fejl + 1
-        # runs if the row is ok
-        else:
-            # add the cleaned row to the list
-            rows.append((raekke[0].strip(), raekke[1].strip().capitalize(), raekke[2].strip().capitalize(),
-                         raekke[3].strip().capitalize(), raekke[4].strip(), raekke[5].strip()))
-    # check if any row had an error
-    if antal_fejl > 0:
-        # insert nothing, so the file can be fixed and tried again
-        print(f"{antal_fejl} fejl fundet, ingen hændelser er indsat")
-        exit()
-    # check that the file had at least one row
-    if len(rows) == 0:
-        # tell the user and stop
-        print("Filen indeholder ingen hændelser")
-        exit()
-# runs if the user typed anything else
-else:
-    # tell the user the choice was not valid and stop
-    print("Ugyldigt valg, skriv 1 eller 2")
-    exit()
+    # check if the user chose the built-in test data
+    elif valg == "1":
+        # use the list from the data file
+        rows = incidents
+        # leave the loop because the rows are ready
+        break
+    # check if the user chose a csv file
+    elif valg == "2":
+        # tell the user how the csv file must look
+        print("\nCSV-filen skal have denne første linje (overskrifter):")
+        # show the header line
+        print(",".join(kolonner))
+        # tell the user how the following lines must look
+        print("og derefter én hændelse pr. linje, fx:")
+        # show an example row
+        print('Falsk mail,Phishing,Mellem,Lukket,2026-10-19,"Linket blev blokeret, ingen skade"')
+        # remind the user about commas in text
+        print("Tekst med komma skal stå i citationstegn. Se også data/example_incidents.csv")
+        # ask for the path and remove spaces and quotes
+        sti = input("\nSti til CSV-filen (0 for tilbage): ").strip().strip("'\"")
+        # check if the user wants to go back to the menu
+        if sti == "0":
+            # go back to the menu
+            continue
+        # try to open and read the file
+        try:
+            # open the file, utf-8-sig also accepts files saved from excel
+            fil = open(sti, encoding="utf-8-sig", newline="")
+            # read all lines into a list of rows
+            alle = list(csv.reader(fil))
+            # close the file again
+            fil.close()
+        # runs if the file does not exist
+        except FileNotFoundError:
+            # tell the user and go back to the menu
+            print("Filen blev ikke fundet")
+            continue
+        # check that the first line is the right header
+        if len(alle) == 0 or [navn.strip() for navn in alle[0]] != kolonner:
+            # tell the user and go back to the menu
+            print("Første linje skal være overskrifterne vist ovenfor")
+            continue
+        # empty list for the rows that are ok
+        rows = []
+        # counter for the rows with errors
+        antal_fejl = 0
+        # go through every line after the header, line numbers start at 2
+        for nr, raekke in enumerate(alle[1:], start=2):
+            # check the row and get an error text
+            fejl = tjek_raekke(raekke)
+            # check if the row has an error
+            if fejl != "":
+                # show which line is wrong and why
+                print(f"Linje {nr}: {fejl}")
+                # count the error
+                antal_fejl = antal_fejl + 1
+            # runs if the row is ok
+            else:
+                # add the cleaned row to the list
+                rows.append((raekke[0].strip(), raekke[1].strip().capitalize(), raekke[2].strip().capitalize(),
+                             raekke[3].strip().capitalize(), raekke[4].strip(), raekke[5].strip()))
+        # check if any row had an error
+        if antal_fejl > 0:
+            # insert nothing, so the file can be fixed and tried again
+            print(f"{antal_fejl} fejl fundet, ingen hændelser er indsat")
+            continue
+        # check that the file had at least one row
+        if len(rows) == 0:
+            # tell the user and go back to the menu
+            print("Filen indeholder ingen hændelser")
+            continue
+        # leave the loop because the rows are ready
+        break
+    # runs if the user typed anything else
+    else:
+        # tell the user the choice was not valid
+        print("Ugyldigt valg, skriv 0, 1 eller 2")
+        # go back to the menu and ask again
+        continue
 
 # open connection to the database file
 conn = sqlite3.connect("cybershield.db")
